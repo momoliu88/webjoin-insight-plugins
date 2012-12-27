@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.socket.HttpURLConnectionOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.socket.ServerSocketChannelAcceptCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.socket.SocketAcceptCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.socket.SocketChannelConnectCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.socket.SocketConnectCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

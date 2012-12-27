@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.jcr.GetNodeOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jcr.ItemOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jcr.LoginOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jcr.QueryOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jcr.SaveOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jcr.WorkspaceOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

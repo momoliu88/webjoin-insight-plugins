@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.jdbc.JdbcConnectionCloseOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jdbc.JdbcDriverConnectOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jdbc.JdbcPreparedStatementOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jdbc.JdbcStatementOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

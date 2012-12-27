@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.jndi.JndiBindOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jndi.JndiLookupOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.jndi.JndiOperationCollectionSupport" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

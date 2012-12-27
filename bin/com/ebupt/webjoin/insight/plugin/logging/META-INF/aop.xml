@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.logging.CommonsLoggingOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.logging.Log4jLoggingOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.logging.Slf4jLoggingOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

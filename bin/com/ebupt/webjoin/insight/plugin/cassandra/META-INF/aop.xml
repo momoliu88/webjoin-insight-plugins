@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.cassandra.ConnectOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.cassandra.CQLOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.cassandra.GetOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.cassandra.RemoveOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.cassandra.SystemOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.cassandra.UpdateOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

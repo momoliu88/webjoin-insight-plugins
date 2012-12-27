@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.runexec.ExecutorExecuteCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.runexec.ExecutorServiceSubmitCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.runexec.ScheduledExecutorServiceCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.runexec.SpringAsyncTaskExecutorCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.runexec.ThreadStartCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.runexec.TimerTaskScheduleCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

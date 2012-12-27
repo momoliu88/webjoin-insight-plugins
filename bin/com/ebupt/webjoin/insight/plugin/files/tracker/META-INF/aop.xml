@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.files.tracker.FileCloseCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.files.tracker.FileInputCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.files.tracker.FileOutputCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

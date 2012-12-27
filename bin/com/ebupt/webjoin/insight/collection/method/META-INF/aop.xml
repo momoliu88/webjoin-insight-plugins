@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.collection.method.AnnotationDrivenMethodOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.collection.method.MethodOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.collection.method.TrailingAbstractOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.collection.method.TrailingMethodOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

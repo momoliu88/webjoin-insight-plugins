@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.struts2.ActionOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.struts2.InterceptOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.struts2.ResultOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.struts2.StartOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

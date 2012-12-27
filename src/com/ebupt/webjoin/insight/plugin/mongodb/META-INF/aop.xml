@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.mongodb.MongoCollectionOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.mongodb.MongoCursorOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.mongodb.MongoDbOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

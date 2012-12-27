@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.hadoop.JobClientOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.hadoop.JobOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.hadoop.MapOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.hadoop.ReduceOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

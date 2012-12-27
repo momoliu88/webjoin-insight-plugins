@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+    	<aspect name="com.ebupt.webjoin.insight.intercept.generic.lifecycle.ApplicationLifecycleCollectionAspect" />
+    	<aspect name="com.ebupt.webjoin.insight.intercept.generic.lifecycle.HttpRequestLifecycleCollectionAspect"/>
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

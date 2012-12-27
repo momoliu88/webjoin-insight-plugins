@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.eclipse.persistence.DatabaseSessionOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.eclipse.persistence.SessionQueryOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.eclipse.persistence.TransactionOperationCollectionAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

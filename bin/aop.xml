@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+    	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ApplicationListenerMethodOperationCollectionAspect" />
+    	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ClassPathScanOperationCollectionAspect"/>
+       	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ComponentMethodOperationCollectionAspect"/>
+       	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.InitializingBeanOperationCollectionAspect"/>
+       	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.RepositoryMethodOperationCollectionAspect"/>
+		<aspect name="com.ebupt.webjoin.insight.plugin.tomcat.jsp.JspCompilerOperationCollectionAspect" />
+       	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ServiceMethodOperationCollectionAspect"/>  	
+		
+		<aspect name="com.ebupt.webjoin.insight.intercept.generic.lifecycle.ApplicationLifecycleCollectionAspect" />
+    	<aspect name="com.ebupt.webjoin.insight.intercept.generic.lifecycle.HttpRequestLifecycleCollectionAspect"/>
+		
+		<aspect name="com.ebupt.webjoin.insight.plugin.servlet.FilterOperationCollectionAspect"/>
+		<aspect name="com.ebupt.webjoin.insight.plugin.servlet.ServletContextListenerOperationDestroyedCollectionAspect"/>
+		<aspect name="com.ebupt.webjoin.insight.plugin.servlet.ServletContextListenerOperationInitializedCollectionAspect"/>	
+		<aspect name="com.ebupt.webjoin.insight.plugin.servlet.HttpRequestOperationCollectionAspect"/>
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>

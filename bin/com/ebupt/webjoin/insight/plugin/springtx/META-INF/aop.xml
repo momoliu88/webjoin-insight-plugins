@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="com.ebupt.webjoin.insight.plugin.springtx.TransactionOperationCollectionAspect" />
+		<aspect name="com.ebupt.webjoin.insight.plugin.springtx.TransactionPointcuts" />
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaxPackages=true">
+	</weaver>
+</aspectj>
