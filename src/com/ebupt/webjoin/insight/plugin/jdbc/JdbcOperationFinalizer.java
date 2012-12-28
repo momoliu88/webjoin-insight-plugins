@@ -50,6 +50,7 @@ public class JdbcOperationFinalizer implements OperationFinalizer {
     }
 
     public static void register(Operation operation) {
+    	System.out.println("register");
         operation.addFinalizer(INSTANCE);
     }
     
@@ -77,11 +78,13 @@ public class JdbcOperationFinalizer implements OperationFinalizer {
             while (index >= params.size()) {
                 params.add(null);
             }
+            System.out.println("addparam: "+index+" => "+param.toString());
             params.set(index, param);
         }
     }
     
     public void finalize(Operation operation, Map<String, Object> richObjects) {
+    	System.out.println("finalize "+operation);
         operation.label(createLabel(operation.get("sql", String.class)));
         if (mappedParamStorage.get(operation) != null) {
             OperationMap params = operation.createMap("params");

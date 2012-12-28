@@ -43,11 +43,12 @@ public aspect FilterOperationCollectionAspect extends AbstractOperationCollectio
     }
 
     public pointcut collectionPoint() 
-        : execution(* Filter+.doFilter(ServletRequest, ServletResponse, FilterChain));
+        : execution(* Filter+.doFilter(ServletRequest, ServletResponse, FilterChain))
+          ||call(* Filter+.doFilter(ServletRequest, ServletResponse, FilterChain));
 
     @Override
     protected Operation createOperation(JoinPoint jp) {
-        Filter filter = (Filter) jp.getThis();
+        Filter filter = (Filter) jp.getTarget();
         Operation basicOperation = opCache.get(filter);
         Operation operation = new Operation();
         if(basicOperation!= null)
@@ -75,11 +76,11 @@ public aspect FilterOperationCollectionAspect extends AbstractOperationCollectio
 
     @SuppressAjWarnings({"adviceDidNotMatch"})
     before() : execution(* Filter+.destroy()) {
-        opCache.remove(thisJoinPoint.getThis());
+        opCache.remove(thisJoinPoint.getTarget());
     }
 
     Operation createFilterOperation (JoinPoint jp) {
-        Filter 			filter=(Filter) jp.getThis();
+        Filter 			filter=(Filter) jp.getTarget();
         FilterConfig	config=(FilterConfig) jp.getArgs()[0];
     	Operation		operation=createFilterOperation(new Operation()
     										.type(TYPE)
@@ -95,7 +96,6 @@ public aspect FilterOperationCollectionAspect extends AbstractOperationCollectio
     			 .put("filterClass", filter.getClass().getName())
     			 .put("filterName", config.getFilterName())
     			 ;
-
     	OperationMap initParams = operation.createMap("initParams");
     	for (Enumeration<String> initParamNames=config.getInitParameterNames(); initParamNames.hasMoreElements(); ) {
     		String name = initParamNames.nextElement();

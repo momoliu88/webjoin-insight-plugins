@@ -60,7 +60,7 @@ import  org.apache.commons.codec.binary.Base64;
  */
 public class Trace implements Serializable, TraceInterface {
     public static final ServerName UNKNOWN_SERVER = ServerName.valueOf("UNKNOWN");
-    public static final String  OPERATION_MAP_NAME = "ExtraTraceData";
+    //public static final String  OPERATION_MAP_NAME = "ExtraTraceData";
     public static final String  ANALYSIS_FIELD = "endpoint",
                                 MANDATORY_FIELD = "mandatory";
 	/**
@@ -86,8 +86,8 @@ public class Trace implements Serializable, TraceInterface {
     private transient Date dateValue;
     private transient boolean minimalTrace;
     private transient ObscuredValueRegistry sensitiveValues = EmptyObscuredValueRegistry.getInstance();
-    private transient volatile EndPointAnalysis endpoint;
-    private transient volatile Boolean mandatory;
+//    private transient volatile EndPointAnalysis endpoint;
+//    private transient volatile Boolean mandatory;
 
     /**
      * Constructor and Setter Methods default scope to allow for mutability in deserialization
@@ -97,17 +97,17 @@ public class Trace implements Serializable, TraceInterface {
     }
     public Trace(ServerName serverName, ApplicationName applicationName, Date traceDate, TraceId traceId, Frame rootFrame,Map<String,Object>hints) 
     {
-        this(serverName, applicationName, traceDate, traceId,TraceType.SIMPLE, rootFrame, hints,null);
+        this(serverName, applicationName, traceDate, traceId,TraceType.SIMPLE, rootFrame, hints);
     }
-    public Trace(ServerName serverName, ApplicationName applicationName, Date traceDate, TraceId traceId,TraceType type, Frame rootFrame,Map<String,Object>hints) 
-    {
-        this(serverName, applicationName, traceDate, traceId,type, rootFrame, hints,null);
-    }
+//    public Trace(ServerName serverName, ApplicationName applicationName, Date traceDate, TraceId traceId,TraceType type, Frame rootFrame,Map<String,Object>hints) 
+//    {
+//        this(serverName, applicationName, traceDate, traceId,type, rootFrame, hints);
+//    }
     public Trace(ServerName serverName, ApplicationName applicationName, Date traceDate, TraceId traceId, Frame rootFrame) {
-        this(serverName, applicationName, traceDate, traceId,TraceType.SIMPLE, rootFrame, null,null);
+        this(serverName, applicationName, traceDate, traceId,TraceType.SIMPLE, rootFrame, null);
     }
 
-    public Trace(ServerName serverName, ApplicationName applicationName, Date traceDate, TraceId traceId,TraceType traceType, Frame rootFrame,Map<String,Object>hints,EndPointAnalysis endpointAnalysis) {
+    public Trace(ServerName serverName, ApplicationName applicationName, Date traceDate, TraceId traceId,TraceType traceType, Frame rootFrame,Map<String,Object>hints) {
         if (traceDate.before(TimeUtil.EPOCH)) {
             throw new IllegalArgumentException("Date cannot be before epoch");
         }
@@ -121,10 +121,10 @@ public class Trace implements Serializable, TraceInterface {
         String userIdFromProp = PropertiesReader.getProps().getProperty("user_email");
         this.userId = userIdFromProp==null?"unknown":userIdFromProp;
         this.sensitive = false;
-        this.endpoint = endpointAnalysis;
+//        this.endpoint = endpointAnalysis;
         this.pid = Integer.valueOf(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
 
-        updateFrameHints(rootFrame);
+      //  updateFrameHints(rootFrame);
     }
     public Map<String, Object> getHints() {
 		return hints;
@@ -188,30 +188,30 @@ public class Trace implements Serializable, TraceInterface {
         return date;
     }
 
-    public EndPointAnalysis getEndpoint() {
-        if (endpoint == null) {
-            endpoint = resolveEndpointValue(getRootFrame());
-        }
+//    public EndPointAnalysis getEndpoint() {
+//        if (endpoint == null) {
+//            endpoint = resolveEndpointValue(getRootFrame());
+//        }
+//
+//        return endpoint;
+//    }
 
-        return endpoint;
-    }
-
-    public void setEndpoint(EndPointAnalysis endpointAnalysis) {
-        endpoint = endpointAnalysis;
-        updateFrameHints(getRootFrame());
-    }
+//    public void setEndpoint(EndPointAnalysis endpointAnalysis) {
+//        endpoint = endpointAnalysis;
+//     //   updateFrameHints(getRootFrame());
+//    }
     
-    public boolean isMandatory() {
-        if (mandatory == null) {
-            mandatory = resolveMandatoryValue(getRootFrame());
-        }
-
-        return (mandatory != null) && mandatory.booleanValue();
-    }
-    
-    public void markMandatory() {
-        setMandatory(true);
-    }
+//    public boolean isMandatory() {
+//        if (mandatory == null) {
+//            mandatory = resolveMandatoryValue(getRootFrame());
+//        }
+//
+//        return (mandatory != null) && mandatory.booleanValue();
+//    }
+//    
+//    public void markMandatory() {
+//        setMandatory(true);
+//    }
 
     /**
      * Indicates if this trace is known to contain sensitive data that must
@@ -294,48 +294,48 @@ public class Trace implements Serializable, TraceInterface {
 
     void setRoot(Frame rootFrame) {
         root = rootFrame;
-        updateFrameHints(rootFrame);
+ //       updateFrameHints(rootFrame);
     }
 
     void setSensitive(boolean flagValue) {
         this.sensitive = flagValue;
     }
-    
-    void setMandatory(boolean flagValue) {
-        mandatory = Boolean.valueOf(flagValue);
-        updateFrameHints(getRootFrame());
-    }
+//    
+//    void setMandatory(boolean flagValue) {
+//        mandatory = Boolean.valueOf(flagValue);
+//        updateFrameHints(getRootFrame());
+//    }
 
-    OperationMap updateFrameHints (Frame frame) {
-        return (frame == null) ? null : updateFrameHints(frame.getOperation());
-    }
+//    OperationMap updateFrameHints (Frame frame) {
+//        return (frame == null) ? null : updateFrameHints(frame.getOperation());
+//    }
 
-    OperationMap updateFrameHints (Operation op) {
-        if (op == null) {
-            return null;
-        }
-
-        OperationMap    map;
-        synchronized(op) {
-            if ((map=op.get(OPERATION_MAP_NAME, OperationMap.class)) == null) {
-                map = op.createMap(OPERATION_MAP_NAME);
-            }
-        }
-        
-        return updateFrameHints(map);
-    }
-
-    OperationMap updateFrameHints (OperationMap map) {
-        if (map == null) {
-            return null;
-        }
-
-        synchronized(map) {
-            map.put(MANDATORY_FIELD, (mandatory != null) && mandatory.booleanValue());
-            updateEndPointAnalysis(map, endpoint);
-        }
-        return map;
-    }
+//    OperationMap updateFrameHints (Operation op) {
+//        if (op == null) {
+//            return null;
+//        }
+//
+//        OperationMap    map;
+//        synchronized(op) {
+//            if ((map=op.get(OPERATION_MAP_NAME, OperationMap.class)) == null) {
+//                map = op.createMap(OPERATION_MAP_NAME);
+//            }
+//        }
+//        
+//        return updateFrameHints(map);
+//    }
+//
+//    OperationMap updateFrameHints (OperationMap map) {
+//        if (map == null) {
+//            return null;
+//        }
+//
+//        synchronized(map) {
+//            map.put(MANDATORY_FIELD, (mandatory != null) && mandatory.booleanValue());
+//            updateEndPointAnalysis(map, endpoint);
+//        }
+//        return map;
+//    }
 
     static final OperationMap updateEndPointAnalysis (OperationMap map, EndPointAnalysis endpoint) {
         OperationMap    analysisMap=map.get(ANALYSIS_FIELD, OperationMap.class);
@@ -356,17 +356,17 @@ public class Trace implements Serializable, TraceInterface {
         return analysisMap;
     }
 
-    static final Boolean resolveMandatoryValue (Frame frame) {
-        return resolveMandatoryValue(getEncodedMap(frame));
-    }
+//    static final Boolean resolveMandatoryValue (Frame frame) {
+//        return resolveMandatoryValue(getEncodedMap(frame));
+//    }
 
     static final Boolean resolveMandatoryValue (OperationMap map) {
         return (map == null) ? null : map.get(MANDATORY_FIELD, Boolean.class);
     }
 
-    static final EndPointAnalysis resolveEndpointValue (Frame frame) {
-        return resolveEndpointValue(getEncodedMap(frame));
-    }
+//    static final EndPointAnalysis resolveEndpointValue (Frame frame) {
+//        return resolveEndpointValue(getEncodedMap(frame));
+//    }
     
     static final EndPointAnalysis resolveEndpointValue (OperationMap map) {
         if (map == null) {
@@ -376,13 +376,13 @@ public class Trace implements Serializable, TraceInterface {
         }
     }
     
-    static final OperationMap getEncodedMap (Frame frame) {
-        return getEncodedMap(frame.getOperation());
-    }
-    
-    static final OperationMap getEncodedMap (Operation op) {
-        return op.get(OPERATION_MAP_NAME, OperationMap.class);
-    }
+//    static final OperationMap getEncodedMap (Frame frame) {
+//        return getEncodedMap(frame.getOperation());
+//    }
+//    
+//    static final OperationMap getEncodedMap (Operation op) {
+//        return op.get(OPERATION_MAP_NAME, OperationMap.class);
+//    }
     /**
      * @param opType The requested {@link OperationType}
      * @return A {@link Collection} of all frames that contain an {@link Operation}
@@ -430,12 +430,12 @@ public class Trace implements Serializable, TraceInterface {
      * by the start time of the root frame.
      */
     public static Trace newInstance(ServerName server, ApplicationName appName, TraceId id, Frame root) {
-        return newInstance(server, appName, id,TraceType.SIMPLE, root,null, null);
+        return newInstance(server, appName, id,TraceType.SIMPLE, root,null);
     }
 
-    public static Trace newInstance(ServerName server, ApplicationName appName, TraceId id,TraceType type, Frame root,Map<String,Object>hints, EndPointAnalysis endpoint) {
+    public static Trace newInstance(ServerName server, ApplicationName appName, TraceId id,TraceType type, Frame root,Map<String,Object>hints) {
         Date date = root.getRange().getStartDate();
-        return new Trace(server, appName, date, id, type,root, hints,endpoint);
+        return new Trace(server, appName, date, id, type,root, hints);
     }
 
 
@@ -450,28 +450,28 @@ public class Trace implements Serializable, TraceInterface {
      * Shallow copy of properties from the original trace replacing the frame stack.
      */
     public static Trace clone(Trace original, Frame root) {
-        Trace clone = newInstance(original.getServer(), original.getAppName(), original.getId(),original.getType(), root, original.getHints(),original.getEndpoint());
+        Trace clone = newInstance(original.getServer(), original.getAppName(), original.getId(),original.getType(), root, original.getHints());
         if (original.isSensitive()) {
             clone.markSensitive();
         }
         
-        if (original.isMandatory()) {
-            clone.markMandatory();
-        }
+//        if (original.isMandatory()) {
+//            clone.markMandatory();
+//        }
         
         return clone;
     }
 
     public static Trace cloneWithNewId(Trace original, Frame root) {
         TraceId id = TraceId.valueOf(/*original.getId() + "-ext"*/);
-        Trace clone = newInstance(original.getServer(), original.getAppName(), id,original.getType(), root,original.getHints(), original.getEndpoint());
+        Trace clone = newInstance(original.getServer(), original.getAppName(), id,original.getType(), root,original.getHints());
         if (original.isSensitive()) {
             clone.markSensitive();
         }
         
-        if (original.isMandatory()) {
-            clone.markMandatory();
-        }
+//        if (original.isMandatory()) {
+//            clone.markMandatory();
+//        }
 
         return clone;
     }
@@ -669,12 +669,14 @@ public class Trace implements Serializable, TraceInterface {
             return true;
         }
         
-        return (t1.isMandatory() == t2.isMandatory())
-            && (t1.isSensitive() == t2.isSensitive())
+        return 
+//        		(t1.isMandatory() == t2.isMandatory())
+//            && 
+            (t1.isSensitive() == t2.isSensitive())
             && (t1.getTimestamp() == t2.getTimestamp())
             && ObjectUtil.typedEquals(t1.getAppName(), t2.getAppName())
             && ObjectUtil.typedEquals(t1.getServer(), t2.getServer())
-            && ObjectUtil.typedEquals(t1.getEndpoint(), t2.getEndpoint())
+//            && ObjectUtil.typedEquals(t1.getEndpoint(), t2.getEndpoint())
              ;
     }
     public InsightJsonObject getExtraInfo() throws JSONException

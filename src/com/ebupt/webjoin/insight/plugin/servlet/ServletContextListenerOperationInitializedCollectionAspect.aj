@@ -43,7 +43,8 @@ public aspect ServletContextListenerOperationInitializedCollectionAspect extends
 
     @Override
     protected Operation createOperation(JoinPoint jp) {
-        ServletContextListener listener = (ServletContextListener) jp.getThis();
+//    	System.out.println("in context init :"+jp.getTarget()+" "+jp.getThis());
+        ServletContextListener listener = (ServletContextListener) jp.getTarget();
         ServletContextEvent event = (ServletContextEvent) jp.getArgs()[0];
         ServletContext context = event.getServletContext();
         String application = context.getContextPath();

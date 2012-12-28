@@ -27,8 +27,8 @@ import java.util.logging.Logger;
 
 import com.ebupt.webjoin.insight.Insight;
 import com.ebupt.webjoin.insight.application.ApplicationName;
-import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
-import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalyzersRegistry;
+//import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
+//import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalyzersRegistry;
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
 import com.ebupt.webjoin.insight.intercept.operation.OperationFields;
 import com.ebupt.webjoin.insight.intercept.operation.OperationList;
@@ -103,7 +103,7 @@ public class TraceDispatchCallback extends NullFrameBuilderCallback {
         	handleUnknownApplication(rootFrame, hints);
         }
 
-        Trace trace=Trace.newInstance(intercept.getServer(), appName, getTraceId(hints),getTraceType(hints), rootFrame,hints ,(EndPointAnalysis) hints.get(EndPointAnalyzersRegistry.TOKEN_NAME));
+        Trace trace=Trace.newInstance(intercept.getServer(), appName, getTraceId(hints),getTraceType(hints), rootFrame,hints);
         if (hasSensitiveHint(hints)) {
             trace.markSensitive();
         }
@@ -111,10 +111,10 @@ public class TraceDispatchCallback extends NullFrameBuilderCallback {
         if (hasMinimalHint(hints)) {
             trace.markMinimalTrace();
         }
-        
-        if (hasMandatoryHint(hints)) {
-            trace.markMandatory();
-        }
+//        
+//        if (hasMandatoryHint(hints)) {
+//            trace.markMandatory();
+//        }
 
         trace.setSensitiveValues(getSensitiveValues(hints));
 
@@ -257,9 +257,9 @@ public class TraceDispatchCallback extends NullFrameBuilderCallback {
         return _hasHint(FrameBuilder.HINT_SENSITIVE, hints);
     }
     
-    private boolean hasMandatoryHint(Map<String,?> hints) {
-        return _hasHint(FrameBuilder.HINT_MANDATORY, hints);
-    }
+//    private boolean hasMandatoryHint(Map<String,?> hints) {
+//        return _hasHint(FrameBuilder.HINT_MANDATORY, hints);
+//    }
 
     private boolean hasMinimalHint(Map<String,?> hints) {
         return _hasHint(FrameBuilder.HINT_COLLECT_ONLY_ENDPOINTS, hints);

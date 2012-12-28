@@ -181,6 +181,7 @@ public class SimpleFrameBuilder implements FrameBuilder {
                     "Attempted to exit a frame when none was in process");
             return null;
         }
+        workingFrame.getOperation().finalizeConstruction();
         Frame oldWorkingFrame = workingFrame;
         workingFrame = (StopWatchFrame) workingFrame.getParent();
         

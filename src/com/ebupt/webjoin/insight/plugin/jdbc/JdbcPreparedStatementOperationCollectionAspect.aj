@@ -50,46 +50,57 @@ public aspect JdbcPreparedStatementOperationCollectionAspect
      * JdbcStatementMetricCollectionAspect.
      */
     public pointcut execute() 
-        :  execution(* java.sql.PreparedStatement.execute*())
-        && collect();
+        :  execution(* java.sql.PreparedStatement.execute*())||call(* java.sql.PreparedStatement.execute*());
+//        && collect();
 
     public pointcut collect()
         :  if (runner.collect(thisAspectInstance, thisJoinPointStaticPart));
 
     pointcut preparedStatementCreation(String sql) 
-        : collect()
-        && ((execution(PreparedStatement Connection.prepareStatement(String, ..))
+        : 
+        	((execution(PreparedStatement Connection.prepareStatement(String, ..))
             || execution(CallableStatement Connection.prepareCall(String, ..))) && args(sql, ..));
 
-    pointcut preparedStatementSetParameter(PreparedStatement statement, int index, Object parameter)
-        : collect() && execution(public void PreparedStatement.set*(int, *))
-            && this(statement) && args(index, parameter);
+//    pointcut setparams( int index, Object parameter):(execution(* PreparedStatement.set*(int,*)) || 
+//    call(* PreparedStatement.set*(int,*)) )&& args(index,parameter);
+    pointcut preparedStatementSetParameter(int index, Object parameter)
+        : 
+        	//collect() && 
+        (call(* PreparedStatement.set*(int,*))||execution(* PreparedStatement.set*(int, *)))
+             && args(index, parameter);
     
-    pointcut callableStatementSetParameter(CallableStatement statement, String key, Object parameter)
-        : collect() && execution(public void CallableStatement.set*(String, *))
-            && this(statement) && args(key, parameter);
+    pointcut callableStatementSetParameter(String key, Object parameter)
+        : 
+      //  	collect() &&
+        	(execution(* CallableStatement.set*(String, *))||call(* CallableStatement.set*(String, *)))
+            && args(key, parameter);
 
-    
+//    before(int index, Object parameter):setparams(index,parameter)
+//    {
+//    	System.out.println("set params "+index+" "+parameter +thisJoinPoint+" "+thisJoinPoint.getTarget());
+//    }
     @SuppressAjWarnings({"adviceDidNotMatch"})
     after(String sql) returning(PreparedStatement statement) : preparedStatementCreation(sql) {
+    	System.out.println("prepared statement "+thisJoinPoint);
         createOperationForStatement(thisJoinPoint, statement, sql);
     }
 
     @SuppressAjWarnings({"adviceDidNotMatch"})
-    after(PreparedStatement statement, int index, Object parameter) returning
-        : preparedStatementSetParameter(statement, index, parameter) 
+    after(int index, Object parameter) returning
+        : preparedStatementSetParameter(index, parameter) 
     {
-        Operation operation = getOperationForStatement(statement);
+    	System.out.println("set param:"+index+ "=>"+parameter+" "+thisJoinPoint+" "+thisJoinPoint.getTarget());
+        Operation operation = getOperationForStatement((PreparedStatement)thisJoinPoint.getTarget());
         if (operation != null) {
             JdbcOperationFinalizer.addParam(operation, index, parameter);
         }
     }
 
     @SuppressAjWarnings({"adviceDidNotMatch"})
-    after(PreparedStatement statement, String parameterName, Object parameter) returning
-        : callableStatementSetParameter(statement, parameterName, parameter) 
+    after(String parameterName, Object parameter) returning
+        : callableStatementSetParameter(parameterName, parameter) 
     {
-        Operation operation = getOperationForStatement(statement);
+        Operation operation = getOperationForStatement((CallableStatement)thisJoinPoint.getTarget());
         if (operation != null) {
             JdbcOperationFinalizer.addParam(operation, parameterName, parameter);
         }
@@ -101,20 +112,21 @@ public aspect JdbcPreparedStatementOperationCollectionAspect
          * We only want to add operations for prepared statements that we actually
          * collected the SQL for (via a prepareStatement or prepareCall)
          */
-        PreparedStatement thisStatement = (PreparedStatement) thisJoinPoint.getThis();
+        PreparedStatement thisStatement = (PreparedStatement) thisJoinPoint.getTarget();
         Operation op = getOperationForStatement(thisStatement);
         if (op != null) {
             getCollector().enter(op);
-        } else {
-            // stmt.execute() called, but stmt was never returned via a prepareStatement().
-            // possibly someone wrapping a preparedStatement (delegation)
-        }
+        } 
+//            else {
+//            // stmt.execute() called, but stmt was never returned via a prepareStatement().
+//            // possibly someone wrapping a preparedStatement (delegation)
+//        }
     }
 
     @SuppressAjWarnings({"adviceDidNotMatch"})
     after() returning(Object returnValue): execute() {
 
-        PreparedStatement thisStatement = (PreparedStatement) thisJoinPoint.getThis();
+        PreparedStatement thisStatement = (PreparedStatement) thisJoinPoint.getTarget();
         Operation op = getOperationForStatement(thisStatement);
 
         if (op != null) {
@@ -127,7 +139,7 @@ public aspect JdbcPreparedStatementOperationCollectionAspect
 
     @SuppressAjWarnings({"adviceDidNotMatch"})
     after() throwing(Throwable exception): execute() {
-        PreparedStatement thisStatement = (PreparedStatement) thisJoinPoint.getThis();
+        PreparedStatement thisStatement = (PreparedStatement) thisJoinPoint.getTarget();
         Operation op = getOperationForStatement(thisStatement);
 
         if (op != null) {
@@ -138,7 +150,9 @@ public aspect JdbcPreparedStatementOperationCollectionAspect
     }
 
     Operation createOperationForStatement(JoinPoint jp, PreparedStatement statement, String sql) {
+    	System.out.println("in createOperationForStatement:"+sql);
         Operation operation = new Operation()
+        		.label(jp.getSignature().getName())
                 .type(JdbcOperationExternalResourceAnalyzer.TYPE)
                 .sourceCodeLocation(getSourceCodeLocation(jp))
                 .put("sql", sql)

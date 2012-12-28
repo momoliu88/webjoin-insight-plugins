@@ -62,7 +62,8 @@ public class DefaultOperationCollector implements OperationCollector {
     private Frame _exitNormal(Object returnValue) {
         Operation op = workingOperation();
         if (op != null) {
-            op.put(OperationFields.RETURN_VALUE, StringFormatterUtils.formatObject(returnValue));
+        	if(returnValue != Void.TYPE)
+        		op.put(OperationFields.RETURN_VALUE, StringFormatterUtils.formatObject(returnValue));
             processNormalExit(op, returnValue);
         }
         return exit();
@@ -75,7 +76,7 @@ public class DefaultOperationCollector implements OperationCollector {
     private Frame _exitNormal() {
         Operation op = workingOperation();
         if (op != null) {
-            op.put(OperationFields.RETURN_VALUE, "void");
+           // op.put(OperationFields.RETURN_VALUE, "void");
             processNormalExit(op);
         }
         return exit();

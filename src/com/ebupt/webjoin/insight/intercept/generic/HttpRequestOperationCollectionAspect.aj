@@ -1,12 +1,10 @@
 package com.ebupt.webjoin.insight.intercept.generic;
 
-import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.Servlet;
 import org.apache.coyote.Request;
 import org.apache.coyote.Response;
-import org.apache.tomcat.util.buf.ByteChunk;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
@@ -56,14 +54,15 @@ public aspect HttpRequestOperationCollectionAspect extends AbstractHttpRequestOp
 		for(int i = 0; i< len;i++)
 			subBytes[i]=bytes[offset+i];
 		//byte [] encode = Base64.encodeBase64(subBytes);
-		System.out.println("sub string===============================");
-		System.out.println("offset "+offset+" len "+len+" total: "+bytes.length);
+//		System.out.println("sub string===============================");
+//		System.out.println("offset "+offset+" len "+len+" total: "+bytes.length);
 
-/*		System.out.println(new String(encode));
-*/		System.out.println("sub string===============================");
+//		System.out.println(new String(encode));
+//		System.out.println("sub string===============================");
 
  		setHint(FrameBuilder.HINT_HTTP_RESPONSE_BODY, subBytes);
 	}
+	@SuppressAjWarnings("adviceDidNotMatch")
 	before():traceStaticPath()
 	{
 		setHint(FrameBuilder.HINT_STATIC_PATH, true);

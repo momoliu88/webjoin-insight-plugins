@@ -110,8 +110,8 @@ public final class Operation implements LazyConstructor, Serializable {
             MapUtil.putIfNonNull(map, key, (visitor != null) ? visitor.visit(key, value) : value);
         }
 
-        MapUtil.putIfNonNull(map, "type", getType());
-        MapUtil.putIfNonNull(map, "label", getLabel());
+    //    MapUtil.putIfNonNull(map, "type", getType());
+    //    MapUtil.putIfNonNull(map, "label", getLabel());
         MapUtil.putIfNonNull(map, "sourceCodeLocation", getSourceCodeLocation());
         return Collections.unmodifiableMap(map);
     }

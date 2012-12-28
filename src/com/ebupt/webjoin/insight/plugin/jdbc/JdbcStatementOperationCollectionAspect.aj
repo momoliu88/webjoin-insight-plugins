@@ -32,11 +32,12 @@ public aspect JdbcStatementOperationCollectionAspect
     extends AbstractOperationCollectionAspect {
     
     public pointcut collectionPoint() 
-        : execution(* java.sql.Statement.execute*(String, ..));
+        : execution(* java.sql.Statement.execute*(String, ..))||call(* java.sql.Statement.execute*(String, ..));
 
     @Override
     protected Operation createOperation(JoinPoint jp) {
         Operation operation = new Operation()
+        	.label(jp.getSignature().getName())
             .type(JdbcOperationExternalResourceAnalyzer.TYPE)
             .sourceCodeLocation(getSourceCodeLocation(jp))
             .put("sql", (String)jp.getArgs()[0]);

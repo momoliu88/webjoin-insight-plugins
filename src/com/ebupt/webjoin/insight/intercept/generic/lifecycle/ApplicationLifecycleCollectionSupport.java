@@ -81,7 +81,8 @@ public class ApplicationLifecycleCollectionSupport {
 		if(resp != null)
 		{
 			op.put("statusCode", resp.getStatus());
-			op.put("contentLength", resp.getContentLength());
+			if(resp.getContentLength() >= 0)
+				op.put("contentLength", resp.getContentLength());
 			Object responseInfo = this.frameBuilder.getHint(FrameBuilder.HINT_HTTP_RESPONSE);
 			//modify some value
 			if(null !=responseInfo && responseInfo instanceof OperationMap)

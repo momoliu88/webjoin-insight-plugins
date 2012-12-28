@@ -52,30 +52,45 @@ public class TraceInterceptListenerImpl implements TraceInterceptListener {
 		InsightJsonObject obj = new InsightJsonObject();
 		InsightJsonObject params = new InsightJsonObject();
 		for (Entry<String, Object> entry : map.entrySet()) {
+			if(entry.getValue() == null)
+				continue;
 			StringBuffer buffer = new StringBuffer();
 			if (entry.getValue() instanceof Map) {
 				InsightJsonObject asMap = frameDescription(entry.getKey(),
 						(Map<String, Object>) entry.getValue(), arr);
-				arr.put(asMap);
-			} else if (entry.getValue() instanceof List) {
+				if(null != asMap)
+					arr.put(asMap);
+				continue;
+			} 
+			if (entry.getValue() instanceof List) {
 				buffer.append(ListUtil.combine((List<Object>) entry.getValue(),
 						','));
-			} else
-				buffer.append(entry.getValue() == null ? "" : entry.getValue()
-						.toString());
-			params.put(entry.getKey(), buffer.toString());
+			} else{
+					buffer.append(entry.getValue().toString());
+			}
+//				buffer.append(entry.getValue() == null ? "" : entry.getValue()
+//						.toString());
+		//	if(entry.getValue()!=null)
+			if(buffer.length() > 0)
+				params.put(entry.getKey(), buffer.toString());
 
 		}
-		obj.put("params", params);
-		obj.put("title", key);
-		return obj;
+		if(params.length() > 0 )
+		{
+			obj.put("params", params);
+			obj.put("title", key);
+			return obj;
+		}
+		return null;
 	}
 
 	public InsightJsonArray frameDes(Operation op) throws JSONException {
 		Map<String, Object> map = op.asMap();
+		System.out.println("op.map "+map);
 		InsightJsonArray arr = new InsightJsonArray();
 		InsightJsonObject obj = frameDescription("properties", map, arr);
-		arr.put(obj);
+		if(obj != null)
+			arr.put(obj);
 		return arr;
 	}
 

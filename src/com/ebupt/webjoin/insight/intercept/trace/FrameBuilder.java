@@ -24,7 +24,7 @@ public interface FrameBuilder {
     final static String HINT_DISCARD = "discard";
     final static String HINT_COLLECT_ONLY_ENDPOINTS = "only-endpoints";
     final static String HINT_OPERATION_COLLECT_LEVEL = "op-collect-level";
-    final static String HINT_MANDATORY = "mandatory-trace";
+//    final static String HINT_MANDATORY = "mandatory-trace";
     final static String HINT_OBSCURED_REGISTRY = "obscuredRegistry";
     public int getdepth();
     /**

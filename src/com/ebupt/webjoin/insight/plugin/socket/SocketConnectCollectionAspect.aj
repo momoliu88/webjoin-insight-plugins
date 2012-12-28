@@ -28,10 +28,13 @@ public aspect SocketConnectCollectionAspect extends SocketConnectCollectionAspec
         super();
     }
 
-    public pointcut collectionPoint() : call(* Socket+.connect(..));
+    public pointcut collectionPoint() : call(* Socket+.connect(..))||call(public Socket.new(..));
 
     @Override
     protected SocketAddress resolveConnectAddress (JoinPoint jp) {
+    	Object[] args = jp.getArgs();
+    	if(args.length <= 0) return null;
+    	System.out.println("in this "+jp.getSignature().getName());
         return (SocketAddress) jp.getArgs()[0];
     }
 }

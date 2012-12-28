@@ -42,7 +42,8 @@ public aspect ServletContextListenerOperationDestroyedCollectionAspect extends A
 
     @Override
     protected Operation createOperation(JoinPoint jp) {
-        ServletContextListener listener = (ServletContextListener) jp.getThis();
+//    	System.out.println("in servletcontext destory: "+jp.getTarget());
+        ServletContextListener listener = (ServletContextListener) jp.getTarget();
         ServletContextEvent event = (ServletContextEvent) jp.getArgs()[0];
         ServletContext context = event.getServletContext();
         String application = context.getContextPath();

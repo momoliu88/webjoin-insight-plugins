@@ -26,8 +26,6 @@ import com.ebupt.webjoin.insight.intercept.operation.Operation;
 import com.ebupt.webjoin.insight.intercept.operation.OperationType;
 import com.ebupt.webjoin.insight.intercept.util.KeyValPair;
 
-
-
 /**
  * This aspect differs from the {@link AbstractOperationCollectionAspect} by
  * the fact that while the {@link Operation} is generated in the <code>before</code>

@@ -36,11 +36,13 @@ public final class SocketDefinitions {
     public static final String  ACTION_ATTR="action",
                                     CONNECT_ACTION="connect",
                                     ACCEPT_ACTION="accept",
+                                    RESPONSE_ACTION="response",
                                     CLOSE_ACTION="close",
                                     SHUTDOWN_ACTION="shutdown",
                                 ADDRESS_ATTR="address",
                                     ANY_ADDRESS="0.0.0.0",
                                 PORT_ATTR="port";
+    
 
     static Operation initializeOperation (Operation op, String action, String addr, int port) {
         op.type(TYPE)
