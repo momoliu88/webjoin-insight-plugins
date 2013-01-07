@@ -19,7 +19,7 @@ package com.ebupt.webjoin.insight.plugin.springcore;
 import org.aspectj.lang.JoinPoint;
 
 import com.ebupt.webjoin.insight.collection.method.MethodOperationCollectionAspect;
-import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
+//import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
 
 /**
@@ -32,7 +32,7 @@ public abstract aspect SpringLifecycleMethodOperationCollectionAspect extends
 	 * interesting enough Spring core API(s) - it is just slightly above that of
 	 * a servlet and/or queue operation
 	 */
-	public static final int LIFECYCLE_SCORE = EndPointAnalysis.CEILING_LAYER_SCORE + 1;
+//	public static final int LIFECYCLE_SCORE = EndPointAnalysis.CEILING_LAYER_SCORE + 1;
 
 	protected SpringLifecycleMethodOperationCollectionAspect() {
 		super();
@@ -40,8 +40,8 @@ public abstract aspect SpringLifecycleMethodOperationCollectionAspect extends
 
 	@Override
 	protected Operation createOperation(JoinPoint jp) {
-		return super.createOperation(jp).put(EndPointAnalysis.SCORE_FIELD,
-				LIFECYCLE_SCORE);
+		return super.createOperation(jp);/*.put(EndPointAnalysis.SCORE_FIELD,
+				LIFECYCLE_SCORE);*/
 	}
 
 	@Override

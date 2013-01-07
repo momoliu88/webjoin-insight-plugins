@@ -21,7 +21,7 @@ public aspect ClassPathScanOperationCollectionAspect extends SpringLifecycleMeth
     public ClassPathScanOperationCollectionAspect() {
         super();
     }
-
+//spring internal scan strategy
     public pointcut findPathMatchingResources()
         : execution(* org.springframework.core.io.support.PathMatchingResourcePatternResolver+.findPathMatchingResources(..));
 

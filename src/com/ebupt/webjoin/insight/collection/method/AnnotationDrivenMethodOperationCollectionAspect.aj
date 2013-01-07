@@ -5,9 +5,12 @@ public aspect AnnotationDrivenMethodOperationCollectionAspect extends
 	public AnnotationDrivenMethodOperationCollectionAspect() {
 		super();
 	}
-
+//	pointcut tracemethod():execution(* (@MethodOperationsCollected *).*(..))||call(* (@MethodOperationsCollected *).*(..));
 	public pointcut collectionPoint() : execution(* (@MethodOperationsCollected *).*(..));
 
+//	before():tracemethod(){
+//		System.out.println("methodoperationcollected "+thisJoinPoint);
+//	}
 	@Override
 	public boolean isEndpoint() {
 		return true;

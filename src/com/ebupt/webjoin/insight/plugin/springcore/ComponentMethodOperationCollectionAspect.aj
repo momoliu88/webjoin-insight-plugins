@@ -26,6 +26,5 @@ public aspect ComponentMethodOperationCollectionAspect {
 	 * We exclude all Insight beans since if we want insight-on-insight we
 	 * cannot use this aspect as it may cause infinite recursion
 	 */
-	//@SuppressAjWarnings("typeNotExposedToWeaver")
-	 declare @type: (@Component *)&& !(com.ebupt.webjoin.insight..*)  : @MethodOperationsCollected;
+	 declare @type: (@Component *)&& !(com.ebupt.webjoin.insight..*):@MethodOperationsCollected;
 }
