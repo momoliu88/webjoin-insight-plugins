@@ -104,7 +104,7 @@ public aspect HttpURLConnectionOperationCollectionAspect extends
 	public pointcut collectionPoint():call(* HttpURLConnection.getResponse*(..))||call(* HttpURLConnection+.connect());
 		//	call(* HttpURLConnection+.connect());
 
-	public pointcut connect():execution(* URL.openConnection(..))||call(* URL.openConnection(..));
+	public pointcut connect():execution(* URL.openConnection(..));//||call(* URL.openConnection(..));
 
 	@SuppressAjWarnings({ "adviceDidNotMatch" })
 	before():connect(){

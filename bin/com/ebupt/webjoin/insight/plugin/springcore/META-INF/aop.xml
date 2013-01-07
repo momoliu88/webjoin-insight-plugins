@@ -3,10 +3,14 @@
 	<aspects>
     	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ApplicationListenerMethodOperationCollectionAspect" />
     	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ClassPathScanOperationCollectionAspect"/>
+    	<!--  
        	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ComponentMethodOperationCollectionAspect"/>
+       	-->
        	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.InitializingBeanOperationCollectionAspect"/>
+       	<!-- 
        	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.RepositoryMethodOperationCollectionAspect"/>
-       	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ServiceMethodOperationCollectionAspect"/>  	
+       	<aspect name="com.ebupt.webjoin.insight.plugin.springcore.ServiceMethodOperationCollectionAspect"/> 
+       	--> 	
        	<aspect name="com.ebupt.webjoin.insight.collection.method.AnnotationDrivenMethodOperationCollectionAspect"/>
 	</aspects>
 	<weaver options="-verbose -Xset:weaveJavaxPackages=true">

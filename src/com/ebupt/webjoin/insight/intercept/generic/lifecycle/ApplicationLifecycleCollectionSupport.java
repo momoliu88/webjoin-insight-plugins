@@ -31,7 +31,7 @@ public class ApplicationLifecycleCollectionSupport {
 
 	private static final InterceptConfiguration interceptConfig = InterceptConfiguration
 			.getInstance();
-	private final FrameBuilder frameBuilder = interceptConfig.getFrameBuilder();
+	protected final FrameBuilder frameBuilder = interceptConfig.getFrameBuilder();
 
 	private static final ApplicationMetadataCache applicationMetaData = ApplicationMetadataCache
 			.getInstance();

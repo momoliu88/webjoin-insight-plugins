@@ -200,7 +200,7 @@ public class SimpleFrameBuilder implements FrameBuilder {
         }
         
         depth--;
-
+        System.out.println("existing root? "+exitingRoot);
         if (exitingRoot) {
         	/*
         	 * Make sure the application name hint is set correctly

@@ -15,7 +15,6 @@
  */
 
 package com.ebupt.webjoin.insight.plugin.springcore;
-//import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.springframework.stereotype.Component;
 import com.ebupt.webjoin.insight.collection.method.MethodOperationsCollected;
 /**

@@ -4,6 +4,8 @@ import org.apache.coyote.Request;
 import org.apache.coyote.Response;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
+import com.ebupt.webjoin.insight.intercept.operation.Operation;
+
 
 public abstract aspect AbstractHttpRequestLifeCycleCollectionAspect extends ApplicationLifecycleCollectionSupport {
 	public AbstractHttpRequestLifeCycleCollectionAspect()
@@ -27,6 +29,11 @@ public abstract aspect AbstractHttpRequestLifeCycleCollectionAspect extends Appl
 
 		doAfterHttpRequest(req,resp);
  		getCollector().exitNormal();
+// 		/*test*/
+// 		Operation op = frameBuilder.peek();
+// 		System.out.println("deepth "+frameBuilder.getdepth());
+// 		System.out.println("op:"+op.getLabel());
+// 		//test
 	}
 	@SuppressAjWarnings("adviceDidNotMatch")
 	after(Request req,Response resp) throwing(Throwable exp):collectionPoints(req,resp)
