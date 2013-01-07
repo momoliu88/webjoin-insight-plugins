@@ -24,10 +24,12 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.THttpClient;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import org.aspectj.lang.annotation.SuppressAjWarnings;
+
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
 import com.ebupt.webjoin.insight.intercept.operation.SourceCodeLocation;
 
-
+@SuppressAjWarnings({ "typeNotExposedToWeaver" })
 privileged aspect OperationUtils {
 	public static String putTransportInfo(Operation operation, TProtocol tprotocol) {
 		TTransport trans=tprotocol.getTransport();

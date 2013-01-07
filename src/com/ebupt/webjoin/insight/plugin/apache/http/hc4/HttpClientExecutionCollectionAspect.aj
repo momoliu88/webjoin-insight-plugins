@@ -38,6 +38,7 @@ import org.apache.http.protocol.HttpContext;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
+import com.ebupt.webjoin.insight.collection.DefaultOperationCollector;
 import com.ebupt.webjoin.insight.collection.FrameBuilderHintObscuredValueMarker;
 import com.ebupt.webjoin.insight.collection.OperationCollectionAspectSupport;
 import com.ebupt.webjoin.insight.collection.OperationCollectionUtil;
@@ -46,9 +47,7 @@ import com.ebupt.webjoin.insight.color.ColorManager.ColorParams;
 import com.ebupt.webjoin.insight.intercept.InterceptConfiguration;
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
 import com.ebupt.webjoin.insight.intercept.operation.OperationFields;
-import com.ebupt.webjoin.insight.intercept.operation.OperationList;
 import com.ebupt.webjoin.insight.intercept.operation.OperationMap;
-import com.ebupt.webjoin.insight.intercept.operation.OperationUtils;
 import com.ebupt.webjoin.insight.intercept.plugin.CollectionSettingName;
 import com.ebupt.webjoin.insight.intercept.plugin.CollectionSettingsRegistry;
 import com.ebupt.webjoin.insight.intercept.plugin.CollectionSettingsUpdateListener;
@@ -124,13 +123,10 @@ public aspect HttpClientExecutionCollectionAspect extends
        || execution(* org.apache.http.client.HttpClient.execute(HttpHost,HttpRequest,HttpContext))
         ;
 
-	public pointcut withResponseExecution():withHttpResponseExecution()&&!within(com.ebupt.webjoin..*);
-
+	public pointcut withResponseExecution():withHttpResponseExecution()&&!within(com.ebupt.webjoin..*) 
+			&& if(strategies.collect(thisAspectInstance, thisJoinPointStaticPart));
 	@SuppressAjWarnings({ "adviceDidNotMatch" })
-	HttpResponse around() throws IOException
-            : withResponseExecution()
-         /*  && (!cflowbelow(withResponseExecution()))*/
-           && if(strategies.collect(thisAspectInstance, thisJoinPointStaticPart)) {
+	before():withResponseExecution(){
 		final Operation op = enterOperation(thisJoinPointStaticPart);
 		final HttpRequest request = HttpPlaceholderRequest
 				.resolveHttpRequest(thisJoinPoint.getArgs());
@@ -144,19 +140,54 @@ public aspect HttpClientExecutionCollectionAspect extends
 				return op;
 			}
 		});
-
-		try {
-			HttpResponse response = proceed();
-			exitOperation(op, request, response, null);
-			return response;
-		} catch (IOException e) {
-			exitOperation(op, request, null, e);
-			throw e;
-		} catch (RuntimeException e) {
-			exitOperation(op, request, null, e);
-			throw e;
-		}
 	}
+	@SuppressAjWarnings({ "adviceDidNotMatch" })
+	after()returning(HttpResponse response):withResponseExecution(){
+		DefaultOperationCollector collector = (DefaultOperationCollector)getCollector();
+		Operation op = collector.builder.peek();
+		final HttpRequest request = HttpPlaceholderRequest
+				.resolveHttpRequest(thisJoinPoint.getArgs());
+		exitOperation(op, request, response, null);
+	}	
+	@SuppressAjWarnings({ "adviceDidNotMatch" })
+	after()throwing(Throwable exp):withResponseExecution(){
+		DefaultOperationCollector collector = (DefaultOperationCollector)getCollector();
+		Operation op = collector.builder.peek();
+		final HttpRequest request = HttpPlaceholderRequest
+				.resolveHttpRequest(thisJoinPoint.getArgs());
+		exitOperation(op, request, null, exp);
+	}
+//	@SuppressAjWarnings({ "adviceDidNotMatch" })
+//	HttpResponse around() throws IOException
+//            : withResponseExecution()
+//         /*  && (!cflowbelow(withResponseExecution()))*/
+//           && if(strategies.collect(thisAspectInstance, thisJoinPointStaticPart)) {
+//		final Operation op = enterOperation(thisJoinPointStaticPart);
+//		final HttpRequest request = HttpPlaceholderRequest
+//				.resolveHttpRequest(thisJoinPoint.getArgs());
+//
+//		colorForward(new ColorParams() {
+//			public void setColor(String key, String value) {
+//				request.addHeader(key, value);
+//			}
+//
+//			public Operation getOperation() {
+//				return op;
+//			}
+//		});
+//
+//		try {
+//			HttpResponse response = proceed();
+//			exitOperation(op, request, response, null);
+//			return response;
+//		} catch (IOException e) {
+//			exitOperation(op, request, null, e);
+//			throw e;
+//		} catch (RuntimeException e) {
+//			exitOperation(op, request, null, e);
+//			throw e;
+//		}
+//	}
 
 	/* -------------------------------------------------------------------- */
 
@@ -268,7 +299,7 @@ public aspect HttpClientExecutionCollectionAspect extends
 			boolean collectExtra) {
 		fillInRequestNetworkDetails(op, request, collectExtra);
 		if (collectExtra) {
-			fillInMessageHeaders(op.createList("headers"), request);
+			fillInMessageHeaders(op.createMap("Request Headers"), request);
 		}
 		return op;
 	}
@@ -299,13 +330,13 @@ public aspect HttpClientExecutionCollectionAspect extends
 
 		if (collectExtra) {
 			op.put("reasonPhrase", statusLine.getReasonPhrase());
-			fillInMessageHeaders(op.createList("headers"), response);
+			fillInMessageHeaders(op.createMap("Response Headers"), response);
 		}
 
 		return op;
 	}
 
-	OperationList fillInMessageHeaders(OperationList headers, HttpMessage msg) {
+	OperationMap fillInMessageHeaders(OperationMap headers, HttpMessage msg) {
 		Header[] hdrs = msg.getAllHeaders();
 		if ((hdrs == null) || (hdrs.length <= 0)) {
 			return headers;
@@ -316,7 +347,8 @@ public aspect HttpClientExecutionCollectionAspect extends
 			if (OBFUSCATED_HEADERS.contains(name)) {
 				obscuredMarker.markObscured(value);
 			}
-			OperationUtils.addNameValuePair(headers, name, value);
+			//OperationUtils.addNameValuePair(headers, name, value);
+			headers.put(name, value);
 		}
 
 		return headers;
