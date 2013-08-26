@@ -31,6 +31,8 @@ import java.util.logging.Logger;
 
 import com.ebupt.webjoin.insight.application.ApplicationName;
 import com.ebupt.webjoin.insight.intercept.ConfigUtils;
+import com.ebupt.webjoin.insight.rabinfingerprint.fingerprint.RabinFingerprintLongWindowed;
+import com.ebupt.webjoin.insight.rabinfingerprint.polynomial.Polynomial;
 import com.ebupt.webjoin.insight.util.FileUtil;
 import com.ebupt.webjoin.insight.util.ListUtil;
 import com.ebupt.webjoin.insight.util.ObjectUtil;
@@ -42,6 +44,9 @@ import com.ebupt.webjoin.insight.util.props.PropertiesUtil;
  * A central class used for holding Insight related configuration.
  */
 public class Insight implements NamedPropertySource {
+	//for rabin
+	public static final Polynomial poly =  Polynomial.createIrreducible(53);
+	public static  RabinFingerprintLongWindowed window ;
 	public static final String CONFIG_PROP_CONTEXT_IGNORE_PREFIX = "application.context.ignore.";
 	public static final String SYS_PROP_CONTEXT_OVERRIDE_IGNORE = "insight.context.override.ignore";
 	public static final String SYS_PROP_ENABLED = "insight.enabled";
@@ -67,6 +72,8 @@ public class Insight implements NamedPropertySource {
 
 	Insight() {
 		populateSysPropBasedConfig();
+		window= new RabinFingerprintLongWindowed(
+				poly, 48);
 	}
 
 	public Collection<String> getPropertyNames() {

@@ -20,7 +20,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.aspectj.lang.reflect.SourceLocation;
 
-import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
+//import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
 import com.ebupt.webjoin.insight.intercept.operation.SourceCodeLocation;
 import  com.ebupt.webjoin.insight.plugin.springweb.*;
@@ -48,7 +48,7 @@ public aspect LegacyControllerOperationCollectionAspect extends AbstractControll
     @Override
 	public Operation createOperation(JoinPoint jp) {
 		return super.createOperation(jp)
-				    .put(EndPointAnalysis.SCORE_FIELD, ControllerEndPointAnalyzer.LEGACY_SCORE)
+				  //  .put(EndPointAnalysis.SCORE_FIELD, ControllerEndPointAnalyzer.LEGACY_SCORE)
 				    ;
 	}
 

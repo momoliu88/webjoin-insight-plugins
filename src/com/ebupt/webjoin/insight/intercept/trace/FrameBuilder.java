@@ -12,7 +12,7 @@ import com.ebupt.webjoin.insight.intercept.operation.Operation;
 public interface FrameBuilder {
     final static String HINT_APPNAME = "applicationName";
     final static String HINT_TRACETYPE="traceType";
-    
+    final static String HINT_EXCEED_MAX_TRACINGTIME = "exceed_max_tracing_time";
     final static String HINT_HTTP_RESPONSE_BODY="httpResponseBody";
     final static String HINT_HTTP_REQUEST="request";
     final static String HINT_HTTP_RESPONSE="response";

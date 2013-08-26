@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
 import com.ebupt.webjoin.insight.intercept.util.time.StopWatch;
+import com.ebupt.webjoin.insight.intercept.util.time.Time;
 import com.ebupt.webjoin.insight.intercept.util.time.TimeRange;
 
 public class StopWatchFrame implements Frame, Serializable {
@@ -30,7 +31,11 @@ public class StopWatchFrame implements Frame, Serializable {
 		this.children = new ArrayList<Frame>();
 		this.watch = watch;
 	}
-
+	@Override
+	public Time getStart(){
+		return new Time(this.frameStart);
+	}
+	
 	public TimeRange getRange() {
 		return this.range;
 	}
@@ -109,4 +114,6 @@ public class StopWatchFrame implements Frame, Serializable {
 	public void discard(StopWatchFrame frame) {
 		this.children.remove(frame);
 	}
+
+	
 }

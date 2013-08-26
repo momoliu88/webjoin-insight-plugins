@@ -12,7 +12,7 @@ public class WebappLoadingHelper {
 	private Collection<File> searchRoots;
 	private JarFileFilter aopFilter = new JarFileFilter("aop.xml");
 	private JarFileFilter jarFilter = new JarFileFilter(null);
-
+	
 	public WebappLoadingHelper(Collection<File> searchRoots) {
 		this.searchRoots = searchRoots;
 	}

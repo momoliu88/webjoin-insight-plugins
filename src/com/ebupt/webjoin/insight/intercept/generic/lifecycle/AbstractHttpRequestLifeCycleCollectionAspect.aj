@@ -4,9 +4,6 @@ import org.apache.coyote.Request;
 import org.apache.coyote.Response;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
-import com.ebupt.webjoin.insight.intercept.operation.Operation;
-
-
 public abstract aspect AbstractHttpRequestLifeCycleCollectionAspect extends ApplicationLifecycleCollectionSupport {
 	public AbstractHttpRequestLifeCycleCollectionAspect()
 	{

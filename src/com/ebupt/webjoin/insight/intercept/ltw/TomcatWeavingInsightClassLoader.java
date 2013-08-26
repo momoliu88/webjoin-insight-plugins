@@ -6,11 +6,14 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+
 import org.apache.catalina.LifecycleException;
 import org.aspectj.weaver.loadtime.ClassPreProcessorAgentAdapter;
 
 import com.ebupt.webjoin.insight.Insight;
 import com.ebupt.webjoin.insight.intercept.InterceptConfiguration;
+import com.ebupt.webjoin.insight.intercept.InterceptTimerTask;
 
 public class TomcatWeavingInsightClassLoader extends TomcatInsightClassLoader {
 	/*
@@ -26,11 +29,17 @@ public class TomcatWeavingInsightClassLoader extends TomcatInsightClassLoader {
 	public TomcatWeavingInsightClassLoader(ClassLoader parent) {
 		super(parent);
 	}
-
+	static {
+		System.out.println("timer start.");
+		Timer timer = new Timer();
+		timer.schedule(new InterceptTimerTask(), 0, 20L*1000);
+	}
 	public void start() throws LifecycleException {
 		super.start();
 		readInsightConfig();
-
+			
+		
+			
 		List<File> pluginRoots = new ArrayList<File>();
 		pluginRoots.add(new File(System.getProperty("insight.base")));
 

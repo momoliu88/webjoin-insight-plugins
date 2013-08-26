@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
+import com.ebupt.webjoin.insight.intercept.util.time.Time;
 import com.ebupt.webjoin.insight.intercept.util.time.TimeRange;
 
 public class SimpleFrame implements Frame, Serializable {
 	private static final long serialVersionUID = -1411614629234309053L;
 	private FrameId id;
 	private TimeRange range;
+	private Time startTime;
 	private Operation operation;
 	private List<Frame> children;
 	private Frame parent;
@@ -25,6 +27,7 @@ public class SimpleFrame implements Frame, Serializable {
 		this.operation = frame.getOperation();
 		this.range = frame.getRange();
 		this.children = Collections.unmodifiableList(frame.getChildren());
+		this.startTime = frame.getStart();
 	}
 
 	public SimpleFrame(FrameId id, Frame parent, Operation op, TimeRange range,
@@ -34,6 +37,7 @@ public class SimpleFrame implements Frame, Serializable {
 		this.operation = op;
 		this.range = range;
 		this.children = Collections.unmodifiableList(children);
+		this.startTime = range.getStartTime();
 	}
 
 	public Operation getOperation() {
@@ -70,5 +74,10 @@ public class SimpleFrame implements Frame, Serializable {
 
 	public void setParent(Frame parent) {
 		this.parent = parent;
+	}
+
+	@Override
+	public Time getStart() {
+		return this.startTime;
 	}
 }

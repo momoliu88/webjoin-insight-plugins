@@ -2,6 +2,7 @@ package com.ebupt.webjoin.insight.intercept.generic.lifecycle;
 
 /*import java.util.logging.Level;
 import java.util.logging.Logger;*/
+
 import javax.servlet.ServletContext;
 
 import org.apache.coyote.Request;
@@ -28,7 +29,7 @@ public class ApplicationLifecycleCollectionSupport {
 	 */
 
 	private static final boolean insightEnabled = true;// insightConfig.isInsightEnabled();
-
+	
 	private static final InterceptConfiguration interceptConfig = InterceptConfiguration
 			.getInstance();
 	protected final FrameBuilder frameBuilder = interceptConfig.getFrameBuilder();

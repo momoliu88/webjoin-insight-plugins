@@ -1,20 +1,27 @@
 package com.ebupt.webjoin.insight.intercept;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.ebupt.webjoin.insight.HttpClientSender;
+import com.ebupt.webjoin.insight.Insight;
 import com.ebupt.webjoin.insight.intercept.operation.Operation;
 import com.ebupt.webjoin.insight.intercept.trace.Frame;
 import com.ebupt.webjoin.insight.intercept.trace.Trace;
 import com.ebupt.webjoin.insight.intercept.trace.TraceType;
 import com.ebupt.webjoin.insight.json.InsightJsonArray;
 import com.ebupt.webjoin.insight.json.InsightJsonObject;
+import com.ebupt.webjoin.insight.rabinfingerprint.fingerprint.RabinFingerprintLongWindowed;
+import com.ebupt.webjoin.insight.rabinfingerprint.handprint.Divide;
+import com.ebupt.webjoin.insight.rabinfingerprint.polynomial.Polynomial;
 import com.ebupt.webjoin.insight.util.ListUtil;
 
 public class TraceInterceptListenerImpl implements TraceInterceptListener {
@@ -93,7 +100,7 @@ public class TraceInterceptListenerImpl implements TraceInterceptListener {
 			arr.put(obj);
 		return arr;
 	}
-
+/*
 	@Override
 	public void handleTraceDispatch(Trace trace) {
 
@@ -134,5 +141,67 @@ public class TraceInterceptListenerImpl implements TraceInterceptListener {
 		sender.post("trace", jsonObj);
 		sender.closeConn();
 	}
+*/
+	@Override
+	public void handleTraceDispatch(Trace trace) {
 
+		InsightJsonObject jsonObj = new InsightJsonObject();
+		try {
+			jsonObj.put("pid", trace.getPid());
+			TraceType type = trace.getType() == null ? TraceType.LIFECYLE
+					: trace.getType();
+			jsonObj.put("trace_group", type.name());
+			jsonObj.put("user_id", trace.getUserId());
+			jsonObj.put("trace_id", trace.getId().toString());
+			jsonObj.put("trace_start_time", trace.getRootFrame().getRange()
+					.getStartTime().getMillis());
+			jsonObj.put("trace_start_time_ns", trace.getRootFrame().getRange()
+					.getStartTime().getNanos());
+			jsonObj.put("trace_duration", trace.getRootFrame().getRange()
+					.getDuration());
+			jsonObj.put("target_application", trace.getAppName().toString());
+			jsonObj.put("endpoint", trace.getRootFrame().getOperation()
+					.getLabel());
+			jsonObj.put("frames", new InsightJsonArray()
+					.put(printChildProps(trace.getRootFrame())));
+			InsightJsonObject extra = trace.getExtraInfo();
+			if (null != extra) {
+				@SuppressWarnings("unchecked")
+				Iterator<String> itr = extra.keys();
+				while (itr.hasNext()) {
+					String key = itr.next();
+					jsonObj.put(key, extra.get(key));
+				}
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+//			FileWriter fw = new FileWriter("times",true);
+			Long t1 = System.currentTimeMillis();
+			InsightJsonArray ret = Divide.slideWindow(jsonObj.toString().getBytes(), Insight.window);
+			Long times = System.currentTimeMillis() - t1;
+			System.out.println("times "+String.valueOf(times));
+//			fw.close();
+			HttpClientSender sender1 = new HttpClientSender();
+			InsightJsonObject obj = new InsightJsonObject();
+			obj.put("chunks", ret);
+			obj.put("original", jsonObj);
+//			System.out.println(ret);
+			sender1.post("trace", obj);
+		//	sender.post("original",jsonObj);
+//			System.out.println("trace "+obj.toString());
+//			System.out.println("original "+jsonObj.toString());
+			sender1.closeConn();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("send trace:"+jsonObj.toString());
+	
+	}
 }

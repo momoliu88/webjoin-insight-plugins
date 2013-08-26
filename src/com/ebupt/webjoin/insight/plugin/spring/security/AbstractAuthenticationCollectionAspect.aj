@@ -20,7 +20,7 @@ import org.aspectj.lang.JoinPoint;
 import org.springframework.security.core.Authentication;
 
 import com.ebupt.webjoin.insight.collection.method.*;
-import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
+//import com.ebupt.webjoin.insight.intercept.endpoint.EndPointAnalysis;
 import com.ebupt.webjoin.insight.intercept.operation.*;
 import com.ebupt.webjoin.insight.intercept.trace.ObscuredValueMarker;
 
@@ -35,7 +35,7 @@ public abstract aspect AbstractAuthenticationCollectionAspect extends MethodOper
      * endpoint name than <code>authenticate</code> call. The assumption is
      * that some &quot;login&quot; method of a service will be called
      */
-	public static final int	AUTHENTICATION_SCORE=EndPointAnalysis.CEILING_LAYER_SCORE + 1;
+	//public static final int	AUTHENTICATION_SCORE=EndPointAnalysis.CEILING_LAYER_SCORE + 1;
 
     protected AbstractAuthenticationCollectionAspect () {
         super(new AuthenticationProviderOperationCollector());
@@ -54,7 +54,7 @@ public abstract aspect AbstractAuthenticationCollectionAspect extends MethodOper
     protected Operation createAuthenticationOperation (Operation op, Authentication credentials) {
         op.type(SpringSecurityDefinitions.AUTH_OP)
           .label("Authenticate")
-          .put(EndPointAnalysis.SCORE_FIELD, AUTHENTICATION_SCORE)
+          //.put(EndPointAnalysis.SCORE_FIELD, AUTHENTICATION_SCORE)
           .putAnyNonEmpty("principal", credentials.getPrincipal())
           .putAnyNonEmpty("credentials", credentials.getCredentials())
           ;

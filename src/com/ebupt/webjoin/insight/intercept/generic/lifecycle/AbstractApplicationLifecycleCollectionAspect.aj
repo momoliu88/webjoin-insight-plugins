@@ -1,11 +1,13 @@
 package com.ebupt.webjoin.insight.intercept.generic.lifecycle;
 
 
+ 
 import javax.servlet.ServletContextEvent;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
 public abstract aspect AbstractApplicationLifecycleCollectionAspect extends ApplicationLifecycleCollectionSupport{
+	
 	public AbstractApplicationLifecycleCollectionAspect()
 	{
 		super();

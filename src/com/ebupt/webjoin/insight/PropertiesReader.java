@@ -5,12 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Logger;
+ import java.util.logging.Logger;
+
 
 public class PropertiesReader {
 	private static Properties props = null;
 	private static final Logger log = Logger.getLogger(PropertiesReader.class.getName());
 
+	
 	private static void loadProps()
 	{
 		try {

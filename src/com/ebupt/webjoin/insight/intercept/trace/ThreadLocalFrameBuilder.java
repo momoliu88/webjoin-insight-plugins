@@ -46,6 +46,9 @@ public class ThreadLocalFrameBuilder implements FrameBuilder {
         SimpleFrameBuilder myBuilder = getMyThreadBuilder();
         if (myBuilder == null) {
             myBuilder = createMyBuilder();
+            //add this to static map memory
+            FrameBuilderRepo.put(Thread.currentThread(), myBuilder);
+            //ending
         }
 
         myBuilder.enter(operation);

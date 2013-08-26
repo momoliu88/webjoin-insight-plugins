@@ -46,19 +46,19 @@ public aspect TimerTaskScheduleCollectionAspect extends ExecuteMethodCollectionA
      * NOTE: we need to use 'call' since Timer is a core class
      */
 
-    public pointcut delayedSchedule () : call(* Timer.schedule(TimerTask,long));
-    public pointcut periodicDelayedSchedule () : call(* Timer.schedule(TimerTask,long,long));
+    public pointcut delayedSchedule () : call(* Timer.schedule(TimerTask,long)) && !within(com.ebupt.webjoin.insight..*);
+    public pointcut periodicDelayedSchedule () : call(* Timer.schedule(TimerTask,long,long)) &&!within(com.ebupt.webjoin.insight..*);
 
-    public pointcut datedSchedule () : call(* Timer.schedule(TimerTask,Date));
-    public pointcut periodicDatedSchedule () : call(* Timer.schedule(TimerTask,Date,long));
+    public pointcut datedSchedule () : call(* Timer.schedule(TimerTask,Date)) && !within(com.ebupt.webjoin.insight..*);
+    public pointcut periodicDatedSchedule () : call(* Timer.schedule(TimerTask,Date,long)) && !within(com.ebupt.webjoin.insight..*);
     
-    public pointcut delayedFixedRateSchedule () : call(* Timer.scheduleAtFixedRate(TimerTask,long,long));
-    public pointcut datedFixedRateSchedule () : call(* Timer.scheduleAtFixedRate(TimerTask,Date,long));
+    public pointcut delayedFixedRateSchedule () : call(* Timer.scheduleAtFixedRate(TimerTask,long,long)) && !within(com.ebupt.webjoin.insight..*);
+    public pointcut datedFixedRateSchedule () : call(* Timer.scheduleAtFixedRate(TimerTask,Date,long)) &&!within(com.ebupt.webjoin.insight..*);
     
     public pointcut collectionPoint ()
-        : delayedSchedule() || periodicDelayedSchedule()
+        : (delayedSchedule() || periodicDelayedSchedule()
        || datedSchedule() || periodicDatedSchedule()
-       || delayedFixedRateSchedule() || datedFixedRateSchedule()
+       || delayedFixedRateSchedule() || datedFixedRateSchedule());
         ;
 
     @SuppressAjWarnings({"adviceDidNotMatch"})

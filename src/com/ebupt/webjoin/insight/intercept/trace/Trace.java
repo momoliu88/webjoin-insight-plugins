@@ -685,12 +685,16 @@ public class Trace implements Serializable, TraceInterface {
     	String requestKey = FrameBuilder.HINT_HTTP_REQUEST;
     	String respKey = FrameBuilder.HINT_HTTP_RESPONSE;
     	String hasExceptionKey = FrameBuilder.HINT_HAS_EXCEPTION;
-    	boolean isStatic = false;
-    	int hasException = 0;
-    	if(null != hints.get(hasExceptionKey))
-    		hasException = (Integer) hints.get(hasExceptionKey);
+    	String exceedMaxTracingTime = FrameBuilder.HINT_EXCEED_MAX_TRACINGTIME;
     	
-    	jsonObj.put(hasExceptionKey,hasException);
+    	boolean isStatic = false;
+    	if(null != hints.get(hasExceptionKey))
+        	jsonObj.put(hasExceptionKey,(Integer) hints.get(hasExceptionKey));
+
+    	if(null != hints.get(exceedMaxTracingTime))
+        	jsonObj.put(exceedMaxTracingTime,(Integer) hints.get(exceedMaxTracingTime));
+
+    	
     	if(null != hints.get(FrameBuilder.HINT_STATIC_PATH))
     	{
     		isStatic= (Boolean) hints.get(FrameBuilder.HINT_STATIC_PATH);
